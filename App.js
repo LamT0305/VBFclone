@@ -1,13 +1,15 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import LogIn from './src/screens/authentication/LogIn'
+import {View, Text} from 'react-native';
+import React from 'react';
+import Navigation from './src/components/navigate/Navigation';
+import {ToastProvider} from 'react-native-toast-notifications';
+
 
 const App = () => {
   return (
-    <View>
-      <LogIn/>
-    </View>
-  )
-}
+    <ToastProvider>
+      <Navigation />
+    </ToastProvider>
+  );
+};
 
-export default App
+export default App;

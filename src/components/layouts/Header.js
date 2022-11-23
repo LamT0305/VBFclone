@@ -5,30 +5,21 @@ const Header = props => {
   const {title, leftComponent, rightComponent, titleStyle, containerStyle} =
     props;
   return (
-    <View>
-      <View style={{flex: 1, alignItems: 'flex-start'}}>{leftComponent}</View>
-      <View
-        style={{
-          flex: 5,
-          alignItems: 'center',
-        }}>
+    <View style={styles.container}>
+      <View style={styles.leftComponent}>{leftComponent}</View>
+      <View>
         <Text
           style={{
             fontSize: 30,
-            fontWeight: 'bold',
+            fontWeight: '600',
             color: 'white',
+            fontFamily: 'Inter-Medium',
             ...titleStyle,
           }}>
           {title}
         </Text>
       </View>
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'flex-end',
-        }}>
-        {rightComponent}
-      </View>
+      <View style={styles.rightComponent}>{rightComponent}</View>
     </View>
   );
 };
@@ -36,9 +27,10 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 24,
     marginTop: Platform.OS === 'android' ? 20 : 0,
+    marginBottom:20
   },
 });
 export default Header;

@@ -1,44 +1,55 @@
 import {View, Text, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Header from '../../components/layouts/Header';
 import LoadingScreen from '../../components/LoadingScreen';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import CheckBox from '@react-native-community/checkbox';
-import CheckboxItem from './CheckboxItem';
+import SignUpForm from '../../components/forms/SignUpForm';
+import {useAuth} from '~/hooks';
 
 const AuthLayout = ({
   title,
-  loading,
-  isRole,
-  handleChangeRole,
-  isShowRole = true,
-  headerProps,
   children,
+  loading,
   footer,
+  isShowRole,
+  headerProps,
 }) => {
-  const role = [
-    {id: 0, role: 'Luật sư'},
-    {id: 1, role: 'Người dùng'},
-  ];
+  const {isRole, handleChangeRole} = useAuth();
+
   return (
     <View style={styles.container}>
-      <Header title={title} {...headerProps} titleStyle={{color: '#0071bc'}} />
+      <Header title={title} {...headerProps} titleStyle={{color: 'black'}} />
+
       {isShowRole ? (
-        <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.userRole}>
-            <Text style={styles.text}>Bạn là:</Text>
-            <View style={styles.checkbox}>
-              {role.map(isRole => (
-                <View key={isRole.id}>
-                  <CheckboxItem id={isRole.id} title={isRole.role} />
-                </View>
-              ))}
-            </View>
+        <View style={styles.userRole}>
+          <Text style={styles.text}>Bạn là:</Text>
+          <View style={styles.btnRadio}>
+            <CheckBox
+              disabled={false}
+              value={isRole}
+              onValueChange={() => handleChangeRole(!isRole)}
+              onFillColor="#0071bc"
+            />
+            <Text style={{color: 'black'}}>Luật sư</Text>
           </View>
-        </KeyboardAwareScrollView>
-      ) : (
-        children
-      )}
+          <View style={styles.btnRadio}>
+            <CheckBox
+              disabled={false}
+              value={!isRole}
+              onValueChange={() => handleChangeRole(!isRole)}
+              onFillColor="#0071bc"
+            />
+            <Text style={{color: 'black'}}>Người dùng</Text>
+          </View>
+        </View>
+      ) : null}
+
+      {children}
+
+      <View>{footer}</View>
+
+      {loading && <LoadingScreen />}
     </View>
   );
 };
@@ -51,21 +62,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderWidth: 1,
   },
-  userRole:{
-    flexDirection:'row',
-    justifyContent:'space-around',
-    alignItems:'center',
-    marginHorizontal:20
+  userRole: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: 15,
   },
   text: {
     fontSize: 16,
-    fontWeight: '700',
-    color: 'darkblue',
+    fontWeight: '500',
+    color: 'black',
   },
-  checkbox: {
+  btnRadio: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    width:'80%'
+    alignItems: 'center',
   },
 });
 export default AuthLayout;
